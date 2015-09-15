@@ -1,0 +1,38 @@
+CREATE TABLE blocks (
+transactionsRoot TEXT NOT NULL,
+hash TEXT NOT NULL,
+uncles TEXT NOT NULL,
+sha3Uncles TEXT NOT NULL,
+gasLimit NUMERIC NOT NULL,
+parentHash TEXT NOT NULL,
+extraData TEXT NOT NULL,
+miner TEXT NOT NULL,
+number NUMERIC NOT NULL,
+stateRoot TEXT NOT NULL,
+difficulty NUMERIC NOT NULL,
+gasUsed NUMERIC NOT NULL,
+timestamp NUMERIC NOT NULL,
+totalDifficulty NUMERIC NOT NULL,
+UNIQUE(number)
+);
+
+
+CREATE TABLE transactions (
+sender TEXT NOT NULL,
+blockHash TEXT NOT NULL REFERENCES blocks(hash) ON DELETE CASCADE ON UPDATE CASCADE,
+gas NUMERIC NOT NULL,
+value NUMERIC NOT NULL,
+blockNumber NUMERIC NOT NULL REFERENCES blocks(number) ON DELETE CASCADE ON UPDATE CASCADE,
+reciever TEXT NOT NULL,
+input TEXT,
+hash TEXT PRIMARY KEY,
+transactionIndex NUMERIC NOT NULL,
+gasPrice NUMERIC NOT NULL
+);
+
+
+
+CREATE TABLE uncles (
+  hash TEXT PRIMARY KEY,
+  blockNumber NUMERIC NOT NULL REFERENCES blocks(number) ON DELETE CASCADE ON UPDATE CASCADE
+);
